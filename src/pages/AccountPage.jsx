@@ -6,7 +6,7 @@ import axios from 'axios';
 import PlacesPage from "./PlacesPage.jsx";
 import AccountNav from "../AccountNav.jsx";
 
-export default function ProfilePage(){
+export default function AccountPage(){
     const [redirect, setRedirect] = useState(null);
     const {ready, user, setUser} = useContext(UserContext);
     let {subpage} = useParams();

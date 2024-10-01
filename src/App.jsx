@@ -6,15 +6,14 @@ import Layout from './Layout';
 import RegisterPage from './pages/RegisterPage';
 import axios from 'axios';
 import { UserContextProvider } from './UserContext';
-import AccountPage from './pages/AccountPage'; // Corrected spelling
-import ProfilePage from './pages/AccountPage';
+import AccountPage from './pages/AccountPage';
 import PlacesPage from './pages/PlacesPage';
 import PlacesFormPage from './pages/PlacesFormPage';
 import PlacePage from './pages/PlacePage';
-import BookingsPage from './pages/BookingsPage'; // Import BookingsPage
-import BookingPage from './pages/BookingPage'; 
+import BookingsPage from './pages/BookingsPage';
+import BookingPage from './pages/BookingPage';
+import NotFoundPage from './pages/NotFoundPage'; // Ensure you have a NotFoundPage component
 
-// Correcting axios baseURL setup with environment variable
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -26,13 +25,14 @@ function App() {
           <Route index element={<IndexPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/account" element={<ProfilePage />} />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="/account/places" element={<PlacesPage />} />
           <Route path="/account/places/new" element={<PlacesFormPage />} />
           <Route path="/account/places/:id" element={<PlacesFormPage />} />
-          <Route path="/place/:id" element={<PlacePage />}/>
+          <Route path="/place/:id" element={<PlacePage />} />
           <Route path="/account/bookings" element={<BookingsPage />} />
           <Route path="/account/bookings/:id" element={<BookingPage />} />
+          <Route path="*" element={<NotFoundPage />} /> {/* Add 404 route */}
         </Route>
       </Routes>
     </UserContextProvider>
