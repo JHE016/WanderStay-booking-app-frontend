@@ -10,14 +10,16 @@ export default function BookingPage() {
 
     useEffect(() => {
         if (id) {
-            axios.get('/bookings').then(response => {
-                const foundBooking = response.data.find(booking => booking._id === id);
-                if (foundBooking) {
-                    setBooking(foundBooking);
-                }
-            }).catch(error => {
-                console.error("There was an error fetching the booking!", error);
-            });
+            axios.get(`${import.meta.env.VITE_API_URL}/bookings`, { withCredentials: true })
+                .then(response => {
+                    const foundBooking = response.data.find(booking => booking._id === id);
+                    if (foundBooking) {
+                        setBooking(foundBooking);
+                    }
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the booking!", error);
+                });
         }
     }, [id]);
 

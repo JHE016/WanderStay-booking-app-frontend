@@ -12,7 +12,7 @@ export default function PlacesPage() {
         if (!id) {
             return;
         }
-        axios.get(`/places/${id}`).then(response => {
+        axios.get(`${import.meta.env.VITE_API_URL}/places/${id}`).then(response => {
             setPlace(response.data);
         });
     }, [id]);
@@ -27,7 +27,7 @@ export default function PlacesPage() {
                 <hr className="border-gray-300 mx-0" style={{ margin: '0 -9999px', height: '1px' }} />
                 <div className="p-4">
                     <h1 className="text-3xl font-semibold leading-tight">{place.title}</h1>
-                    <a className="flex gap-1 my-2 block font-semibold underline" target="_blank" href={'http://maps.google.com/?q=' + place.address}>
+                    <a className="flex gap-1 my-2 block font-semibold underline" target="_blank" href={`http://maps.google.com/?q=${place.address}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
@@ -39,15 +39,15 @@ export default function PlacesPage() {
                     <div className="grid gap-2 grid-cols-3 mt-4">
                         <div className="col-span-2">
                             {place.photos?.[0] && (
-                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={'http://localhost:4000/uploads/' + place.photos[0]} alt="Photo 1" />
+                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`${import.meta.env.VITE_API_URL}/uploads/${place.photos[0]}`} alt="Photo 1" />
                             )}
                         </div>
                         <div className="grid gap-2 grid-rows-2">
                             {place.photos?.[1] && (
-                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={'http://localhost:4000/uploads/' + place.photos[1]} alt="Photo 2" />
+                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`${import.meta.env.VITE_API_URL}/uploads/${place.photos[1]}`} alt="Photo 2" />
                             )}
                             {place.photos?.[2] && (
-                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={'http://localhost:4000/uploads/' + place.photos[2]} alt="Photo 3" />
+                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`${import.meta.env.VITE_API_URL}/uploads/${place.photos[2]}`} alt="Photo 3" />
                             )}
                         </div>
                     </div>
@@ -128,7 +128,7 @@ function PhotosOverlay({ photos, onClose, placeTitle }) {
                 <h2 className="text-3xl mb-4 text-white">Photos of {placeTitle}</h2>
                 {photos?.length > 0 && photos.map((photo, index) => (
                     <div key={index} className="w-full max-w-4xl mb-4">
-                        <img className="w-full object-cover rounded-lg" src={"http://localhost:4000/uploads/" + photo} alt={`Photo ${index + 1}`} />
+                        <img className="w-full object-cover rounded-lg" src={`${import.meta.env.VITE_API_URL}/uploads/${photo}`} alt={`Photo ${index + 1}`} />
                     </div>
                 ))}
             </div>
@@ -139,10 +139,10 @@ function PhotosOverlay({ photos, onClose, placeTitle }) {
 function ReservationBox({ price, placeId }) {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
-    const [numberOfGuests, setNumberOfGuests] = useState(1); // Correct the typo here
+    const [numberOfGuests, setNumberOfGuests] = useState(1);
     const [nights, setNights] = useState(0);
     const [unit, setUnit] = useState(1);
-    const [userName, setUserName] = useState(''); // Add userName state
+    const [userName, setUserName] = useState('');
     const [redirect, setRedirect] = useState('');
     const cleaningFee = 40;
     const serviceFee = 160;
@@ -164,28 +164,24 @@ function ReservationBox({ price, placeId }) {
             checkIn, 
             checkOut, 
             numberOfGuests, 
-            userName, // Include userName in the booking data
+            userName,
             place: placeId,
             price: totalPrice,
             unit,
         };
 
-        console.log('Booking Data:', data);
-
-        axios.post('/bookings', data)
+        axios.post(`${import.meta.env.VITE_API_URL}/bookings`, data, { withCredentials: true })
             .then(response => {
-                // Handle successful booking
                 const bookingId = response.data._id;
                 setRedirect(`/account/bookings/${bookingId}`);
             })
             .catch(error => {
-                // Handle booking error
                 console.error(error);
             });
     }
 
-    if(redirect) {
-        return <Navigate to={redirect} />
+    if (redirect) {
+        return <Navigate to={redirect} />;
     }
 
     return (
@@ -197,7 +193,7 @@ function ReservationBox({ price, placeId }) {
                     type="text"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                     value={userName}
-                    onChange={(e) => setUserName(e.target.value)} // Add input for userName
+                    onChange={(e) => setUserName(e.target.value)}
                 />
             </div>
             <div className="mb-4">
@@ -223,7 +219,7 @@ function ReservationBox({ price, placeId }) {
                 <input
                     type="number"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    value={numberOfGuests} // Use the corrected state variable here
+                    value={numberOfGuests}
                     onChange={(e) => setNumberOfGuests(e.target.value)}
                 />
             </div>

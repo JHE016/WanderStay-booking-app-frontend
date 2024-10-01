@@ -1,21 +1,21 @@
-
-import { Route, Routes } from 'react-router-dom'
-import './App.css'
-import IndexPage from './pages/IndexPage'
-import LoginPage from './pages/LoginPage'
-import Layout from './Layout'
-import RegisterPage from './pages/RegisterPage'
-import axios from 'axios'
-import { UserContextProvider } from './UserContext'
-import AccountPage from './pages/AccountPage' // Corrected spelling
-import ProfilePage from './pages/AccountPage'
-import PlacesPage from './pages/PlacesPage'
-import PlacesFormPage from './pages/PlacesFormPage'
-import PlacePage from './pages/PlacePage'
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import IndexPage from './pages/IndexPage';
+import LoginPage from './pages/LoginPage';
+import Layout from './Layout';
+import RegisterPage from './pages/RegisterPage';
+import axios from 'axios';
+import { UserContextProvider } from './UserContext';
+import AccountPage from './pages/AccountPage'; // Corrected spelling
+import ProfilePage from './pages/AccountPage';
+import PlacesPage from './pages/PlacesPage';
+import PlacesFormPage from './pages/PlacesFormPage';
+import PlacePage from './pages/PlacePage';
 import BookingsPage from './pages/BookingsPage'; // Import BookingsPage
 import BookingPage from './pages/BookingPage'; 
 
-axios.defaults.baseURL = 'http://localhost:4000';
+// Correcting axios baseURL setup with environment variable
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
         </Route>
       </Routes>
     </UserContextProvider>
-  )
+  );
 }
 
-export default App
+export default App;

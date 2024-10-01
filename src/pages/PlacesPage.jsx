@@ -8,7 +8,7 @@ export default function PlacesPage() {
     const [places, setPlaces] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/user-places', { withCredentials: true }).then(({data}) => {
+        axios.get(`${import.meta.env.VITE_API_URL}/user-places`, { withCredentials: true }).then(({data}) => {
             setPlaces(data);
         }).catch(error => {
             console.error('Error fetching places:', error);
