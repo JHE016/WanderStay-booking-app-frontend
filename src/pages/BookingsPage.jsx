@@ -7,16 +7,29 @@ import { differenceInCalendarDays } from 'date-fns';
 
 export default function BookingsPage() {
     const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('/bookings')
+        axios.get(`${import.meta.env.VITE_API_URL}/bookings`, { withCredentials: true })
             .then(response => {
                 setBookings(response.data);
+                setLoading(false);
             })
             .catch(error => {
-                console.error("There was an error fetching the bookings!", error);
+                setError("There was an error fetching the bookings. Please try again later.");
+                console.error("Error fetching bookings:", error);
+                setLoading(false);
             });
     }, []);
+
+    if (loading) {
+        return <div>Loading your bookings...</div>;
+    }
+
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
 
     return (
         <div>
@@ -26,8 +39,7 @@ export default function BookingsPage() {
                 {bookings.length > 0 ? bookings.map(booking => (
                     <Link to={`/account/bookings/${booking._id}`} key={booking._id} className="mb-4">
                         <h2 className="text-2xl font-semibold">
-                            {/* Null check to ensure place exists before trying to access city */}
-                            {booking.place?.city || "Unknown City"}
+                            {booking.place?.city ?? "Unknown City"}
                         </h2>
                         <p className="text-gray-600">
                             {new Date(booking.checkIn).toLocaleDateString()} - {new Date(booking.checkOut).toLocaleDateString()}
@@ -41,13 +53,13 @@ export default function BookingsPage() {
                             <div className="flex flex-col justify-between flex-grow">
                                 <div>
                                     <h3 className="text-lg font-semibold">
-                                        {booking.place?.title || "Unknown Place"}
+                                        {booking.place?.title ?? "Unknown Place"}
                                     </h3>
                                     <p className="text-gray-600">
-                                        {new Date(booking.checkIn).toLocaleDateString()} - {new Date(booking.checkOut).toLocaleDateString()} • {booking.place?.city || "Unknown City"}
+                                        {new Date(booking.checkIn).toLocaleDateString()} - {new Date(booking.checkOut).toLocaleDateString()} • {booking.place?.city ?? "Unknown City"}
                                     </p>
                                     <h3>
-                                        Number of nights: {differenceInCalendarDays(new Date(booking.checkOut), new Date(booking.checkIn))} 
+                                        Number of nights: {differenceInCalendarDays(new Date(booking.checkOut), new Date(booking.checkIn))}
                                     </h3>
                                     {new Date(booking.checkOut) < new Date() ? (
                                         <p className="text-green-600">Completed</p>
@@ -58,7 +70,7 @@ export default function BookingsPage() {
                             </div>
                             <div className="absolute top-4 right-4">
                                 <p className="text-xl font-bold">
-                                    US${booking.price?.toFixed(2) || "N/A"}
+                                    US${(booking.price ?? 0).toFixed(2)}
                                 </p>
                             </div>
                         </div>
