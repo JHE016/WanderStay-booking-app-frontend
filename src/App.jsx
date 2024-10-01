@@ -12,7 +12,6 @@ import PlacesFormPage from './pages/PlacesFormPage';
 import PlacePage from './pages/PlacePage';
 import BookingsPage from './pages/BookingsPage';
 import BookingPage from './pages/BookingPage';
-import NotFoundPage from './pages/NotFoundPage'; // Ensure you have a NotFoundPage component
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
@@ -32,7 +31,6 @@ function App() {
           <Route path="/place/:id" element={<PlacePage />} />
           <Route path="/account/bookings" element={<BookingsPage />} />
           <Route path="/account/bookings/:id" element={<BookingPage />} />
-          <Route path="*" element={<NotFoundPage />} /> {/* Add 404 route */}
         </Route>
       </Routes>
     </UserContextProvider>
