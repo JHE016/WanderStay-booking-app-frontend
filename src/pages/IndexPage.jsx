@@ -24,7 +24,7 @@ export default function IndexPage() {
               {place.photos?.[0] && (
                 <img
                   className="rounded-2xl w-60 h-60 aspect-square object-cover"
-                  src={`${import.meta.env.VITE_API_URL}/uploads/${place.photos?.[0]}`}
+                  src={`/images/${place.photos?.[0]}`}
                   alt={place.title}
                 />
               )}

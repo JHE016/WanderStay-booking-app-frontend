@@ -39,15 +39,15 @@ export default function PlacesPage() {
                     <div className="grid gap-2 grid-cols-3 mt-4">
                         <div className="col-span-2">
                             {place.photos?.[0] && (
-                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`${import.meta.env.VITE_API_URL}/uploads/${place.photos[0]}`} alt="Photo 1" />
+                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`/images/${place.photos[0]}`} alt="Photo 1" />
                             )}
                         </div>
                         <div className="grid gap-2 grid-rows-2">
                             {place.photos?.[1] && (
-                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`${import.meta.env.VITE_API_URL}/uploads/${place.photos[1]}`} alt="Photo 2" />
+                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`/images/${place.photos[1]}`} alt="Photo 2" />
                             )}
                             {place.photos?.[2] && (
-                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`${import.meta.env.VITE_API_URL}/uploads/${place.photos[2]}`} alt="Photo 3" />
+                                <img onClick={() => setShowAllPhotos(true)} className="cursor-pointer w-full h-full object-cover rounded-2xl" src={`/images/${place.photos[2]}`} alt="Photo 3" />
                             )}
                         </div>
                     </div>
@@ -128,7 +128,7 @@ function PhotosOverlay({ photos, onClose, placeTitle }) {
                 <h2 className="text-3xl mb-4 text-white">Photos of {placeTitle}</h2>
                 {photos?.length > 0 && photos.map((photo, index) => (
                     <div key={index} className="w-full max-w-4xl mb-4">
-                        <img className="w-full object-cover rounded-lg" src={`${import.meta.env.VITE_API_URL}/uploads/${photo}`} alt={`Photo ${index + 1}`} />
+                        <img className="w-full object-cover rounded-lg" src={`/images/${photo}`} alt={`Photo ${index + 1}`} />
                     </div>
                 ))}
             </div>
